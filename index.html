@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title> Web Dictionary </title>
+   <h1> Spider-Search </h1>
+   <meta charset="utf-8" />
+   <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+   <link href="styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div id="info">
+    	<p> Look up the definiton of a word (eg. bar, ajax, html, css, javascript or php) </p>
+    	<input id="q" type="text" name="q" placeholder="Search for Definition.."/>
+    	<input id="searchButton" type="button" value="Search" />
+    	<input id="searchButtonAll" type="button" value="Get All Definations" />
+	</div>
+	<div id="results"></div>
+	<script type="text/javascript">
+
+		function getDefinition(data, dataType){
+
+			$.get('request.php', data, function(result){
+				if(dataType === 'html'){
+					document.getElementById('results').innerHTML ='<h3>Results</h3>' + result;
+				}
+				else if(dataType === 'xml'){
+					var ol = document.createElement('ol');
+
+		
+					$(result).find('definition').each(function(i,df){
+						var li = document.createElement('li');
+
+						li.innerHTML ='<h3>'+df.getAttribute('name')+'</h3><p>'+df.textContent+'</p>';
+
+						ol.append(li);
+					});
+
+					document.getElementById('results').innerHTML = ol.innerHTML;
+				}
+			}, dataType);
+		}
+
+		function cleanDefinition(definition){
+			var cleanDefinition = definition.toLowerCase();
+
+			if(definition.trim){
+				cleanDefinition.trim();
+			}
+
+			return cleanDefinition;
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+			
+			$('#searchButton').on('click', function(){
+
+				var q = document.getElementById('q').value;
+				var definition = cleanDefinition(q);
+
+				getDefinition({q: definition}, 'html');
+			});
+
+			$('#searchButtonAll').on('click', function(){
+
+
+				getDefinition({all: true}, 'xml');
+			});
+		});
+	</script>
+</body>
+</html>

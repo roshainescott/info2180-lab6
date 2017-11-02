@@ -1,0 +1,26 @@
+h1{
+    font-family: serif;
+	color:White;
+	background-color: blue;
+	height:70px;
+	width:700px;
+	border:2px;
+	border-radius:10px;
+	text-align:center;
+	
+}
+
+#info{
+    background-color: Darkgrey;
+    height: 100px;
+	width: 700px;
+	font-family: serif;
+}
+#results{
+    background-color: Darkgrey;
+    height: 800px;
+	width: 700px;
+	font-size:15px;
+	font-family: serif;
+}
+
